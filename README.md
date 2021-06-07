@@ -1,12 +1,15 @@
 # Getting Started with Create React App
 
-Sources:
+Sources / References:
  - [Medium](https://medium.com/how-to-react/create-a-calendar-in-react-js-e48e43ab3a19)
  - [OpenBase](https://openbase.com/categories/js/best-react-calendar-libraries?orderBy=RECOMMENDED&)
- - [Programming With Mosh](https://programmingwithmosh.com/react/build-a-react-calendar-component-from-scratch/) (Much more useful than others)
-- [Moment.js Cheatsheet](https://devhints.io/moment)
+ - [Programming With Mosh](https://programmingwithmosh.com/react/build-a-react-calendar-component-from-scratch/)
+ - [Moment.js Cheatsheet](https://devhints.io/moment)
+ - [Moment Documentation](https://momentjs.com/docs/)
+ - [Stack Overflow Article](https://stackoverflow.com/questions/63007335/generating-30-minutes-time-slots-going-into-next-day-using-moment-js)
 
 ---
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
