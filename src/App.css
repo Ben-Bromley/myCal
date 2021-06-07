@@ -41,7 +41,28 @@
   margin: 40px;
   padding: 0 15px 15px 15px;
   /*overflow: scroll;*/
-
 }
 
+#header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
+#month-selector-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: black;
+  border-radius: 10px;
+  color: white;
+}
+
+#month-selector-container span {
+  font-size: 1.5rem;
+}
+
+#prev-icon, #next-icon {
+  font-size: 1.5rem;
+  margin: 0 10px ;
+}
