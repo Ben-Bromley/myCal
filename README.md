@@ -1,5 +1,13 @@
 # Getting Started with Create React App
 
+Sources:
+ - [Medium](https://medium.com/how-to-react/create-a-calendar-in-react-js-e48e43ab3a19)
+ - [OpenBase](https://openbase.com/categories/js/best-react-calendar-libraries?orderBy=RECOMMENDED&)
+ - [Programming With Mosh](https://programmingwithmosh.com/react/build-a-react-calendar-component-from-scratch/) (Much more useful than others)
+- [Moment.js Cheatsheet](https://devhints.io/moment)
+
+---
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
