@@ -9,6 +9,13 @@ Sources / References:
  - [Stack Overflow Article](https://stackoverflow.com/questions/63007335/generating-30-minutes-time-slots-going-into-next-day-using-moment-js)
 
 ---
+## Objectives
+
+ - [ ] Show Dates
+ - [ ] Show Months 
+ - [ ] Change Months
+
+---
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
