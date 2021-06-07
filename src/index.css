@@ -12,7 +12,14 @@ code {
     monospace;
 }
 
+thead, tbody {
+	/*display: flex;*/
+	/*flex-direction: column;*/
+}
+
 th, td {
   border: 1px solid black;
-  min-width: 50px;
+  width: 15vw;
 }
+
+
