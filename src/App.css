@@ -1,3 +1,7 @@
+:root {
+  --main-bg: #333;
+}
+
 .App {
   /*text-align: center;*/
 }
@@ -6,7 +10,7 @@
   display: flex;
   align-items:center;
   justify-content: space-around;
-  background: #333;
+  background: var(--main-bg);
   color: white;
   padding: 0 10px;
 }
@@ -36,7 +40,7 @@
 }
 
 #cal-container {
-  border: 3px solid black;
+  border: 3px solid var(--main-bg);
   border-radius: 20px;
   margin: 40px;
   padding: 0 15px 15px 15px;
@@ -53,7 +57,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: black;
+  background: var(--main-bg);
   border-radius: 10px;
   color: white;
 }
@@ -64,5 +68,7 @@
 
 #prev-icon, #next-icon {
   font-size: 1.5rem;
-  margin: 0 10px ;
+  margin: 5px 10px ;
 }
+
+#prev-icon:hover, #next-icon:hover {color: #aaa;}
