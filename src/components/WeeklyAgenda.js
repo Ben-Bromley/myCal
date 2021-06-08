@@ -1,7 +1,7 @@
 import React from 'react';
 // import ReactDOM from 'react-dom';
 import moment from 'moment';
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
@@ -13,16 +13,11 @@ class WeeklyAgenda extends React.Component {
 			day: this.props.date,
 			weekDates: [],
 			tableHeaders: [],
-			// weekDaysShort: moment.weekdaysShort()
-			// month: this.props.date.format('MMMM/YYYY'),
 		}
-
 		// essentially a constant
 		this.weekDaysShort = moment.weekdaysShort()
-
 		this.getHeaderDates()
 		this.addHeaders()
-
 	};
 	getHeaderDates() {
 		// updates values before running
@@ -37,15 +32,11 @@ class WeeklyAgenda extends React.Component {
 		 	// Adds a day
 			this.weekStart = this.weekStart.add(1, 'days'); 
 		};
-
 		this.setState(()=>({weekDates: this.weekDates}));
 		// returns list of dates for the work
-		console.log('weekdates', this.weekDates)
 		return this.weekDates;
 	}
 	addHeaders() {
-		console.log("weekDays", this.weekDaysShort)
-		console.log("state dates", this.weekDates)
 		// matches date and weekday to match in array
 		this.tableHeaderArray = this.weekDaysShort.map((day, index) => {
 			return (
@@ -54,30 +45,17 @@ class WeeklyAgenda extends React.Component {
 				</th>
 			);
 		})
-		this.setState(() => ({tableHeaders: this.tableHeaderArray}), 
-			console.log(this.state.tableHeaders)
-		)
-
-		console.log("weekDaysShortName(elements)", this.tableHeaderArray)
-		console.log("state.tableHeaders", this.state.tableHeaders)
+		this.setState(() => ({tableHeaders: this.tableHeaderArray}))
 		return this.tableHeaderArray;
 	};
 	prevWeek() {
 		this.setState(prevState => ({day: prevState.day.subtract(1, 'week')}), 
-			()=>{
-				console.log(this.state.day);
-				this.getHeaderDates();
-				this.addHeaders()
-			}
+			()=>{this.getHeaderDates();this.addHeaders()}
 		);
 	}
 	nextWeek() {
 		this.setState(prevState => ({day: prevState.day.add(1, 'week')}), 
-			()=>{
-				console.log(this.state.day);
-				this.getHeaderDates();
-				this.addHeaders();
-			}
+			()=>{this.getHeaderDates();this.addHeaders();}
 		);
 	}
 	createTimeSlots() {
@@ -94,7 +72,6 @@ class WeeklyAgenda extends React.Component {
 		  //Add interval of 30 minutes
 		  startTime.add(x.slotInterval, 'minutes');
 		}
-		// console.log(allTimes);
 		return allTimes;
 	}
 	addTimesToTable() {
