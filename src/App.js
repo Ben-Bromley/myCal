@@ -1,13 +1,14 @@
 
 import './App.css';
 import Header from './components/Header';
-import Calendar from './components/Calendar'
+import WeeklyAgenda from './components/WeeklyAgenda'
+import dayjs from 'dayjs';
 
 function App() {
   return (
     <div className="App">
       <Header />
-      <Calendar />
+      <WeeklyAgenda date={dayjs()}/>
     </div>
   );
 }
