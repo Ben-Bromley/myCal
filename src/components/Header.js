@@ -1,14 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
-
 const Header = () => {
 	return (
 		<nav id="navigation">
 			<div id="nav-header-container">
-				<FontAwesomeIcon 
-				icon={faCalendarAlt} 
-				id="calendar-icon"
-				/>
+				<FontAwesomeIcon icon={faCalendarAlt} id="calendar-icon"/>
 				<h1>myCal</h1>
 			</div>
 			<div>
@@ -21,14 +17,4 @@ const Header = () => {
 		</nav>
 	)
 }
-
 export default Header;
-
-// function Welcome(props) {  return <h1>Hello, {props.name}</h1>;
-// }
-
-// const element = <Welcome name="Sara" />;ReactDOM.render(
-//   element,
-//   document.getElementById('root')
-// );
-
