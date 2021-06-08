@@ -1,3 +1,7 @@
+:root {
+	--main-bg: #333;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -18,7 +22,7 @@ thead, tbody {
 }
 
 th, td {
-  border: 1px solid black;
+  border: 1px solid var(--main-bg);
   width: 15vw;
 }
 
