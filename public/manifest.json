@@ -1,6 +1,6 @@
 {
-  "short_name": "myCal - Weekly Agenda App",
-  "name": "Create React App Sample",
+  "short_name": "myCal",
+  "name": "MyCalendar - Weekly Agenda App",
   "icons": [
     {
       "src": "favicon.ico",
