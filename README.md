@@ -11,10 +11,14 @@ Sources / References:
 ---
 ## Objectives
 
- - [ ] Show Dates
- - [ ] Show Months 
- - [ ] Change WEEKS!
- - [ ]
+ - [x] Show Dates
+ - [x] Change Weeks
+ - [ ] Show Events
+ - [ ] Create Event Window / popup / component
+ - [ ] Read Events
+ - [ ] Update Events
+ - [ ] Delete Events
+
 
 ---
 
