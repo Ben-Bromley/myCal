@@ -1,6 +1,6 @@
 import firebase from 'firebase'
 
-const firebaseConfig = {
+const config = {
   apiKey: "AIzaSyBek52EGDWF7YEakz_aB-6SSpjjavA1_7s",
   authDomain: "my-cal-76221.firebaseapp.com",
   projectId: "my-cal-76221",
@@ -10,5 +10,6 @@ const firebaseConfig = {
 };
 
 
-firebase.initializeApp(config);
-export default firebase;
+const firebaseApp = firebase.initializeApp(config);
+const db = firebase.firestore();
+export default db;
