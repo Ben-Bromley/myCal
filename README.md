@@ -13,9 +13,11 @@ Sources / References:
 
  - [x] Show Dates
  - [x] Change Weeks
- - [ ] Show Events
- - [ ] Create Event Window / popup / component
- - [ ] Read Events
+ - [ ] Create Event Window / pop-up / component
+ - [ ] Read / Show Events
+     - [x] All Day Events
+     - [ ] Partial Day Events
+     - [ ] Continuous Partial Day Events
  - [ ] Update Events
  - [ ] Delete Events
 
