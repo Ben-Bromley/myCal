@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 
 class TableCell extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            day: this.props.day,
+            timeSlot: this.props.timeSlot,
+            eventData: this.props.eventData
+        }
+    }
 
     handleClick() {
         // handle the click
@@ -16,7 +24,9 @@ class TableCell extends Component {
 
     render() {
         return (
-                <td onClick={()=>this.handleClick()}>{this.props.eventData}</td>
+                <td onClick={()=>this.handleClick()}>
+                    {this.props.display}{this.state.day}
+                </td>
         )
     }
 }
