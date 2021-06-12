@@ -4,27 +4,29 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import db from '../firebase.js';
-import TableCell from './TableCell'
-
+import TableCell from './TableCell';
+import dataHandler from '../dataHandler';
 class WeeklyAgenda extends React.Component {
 	constructor(props){
 		super(props)
 		this.state = {
 			day: this.props.date,
+			weekDates: [],
+			
 		}
 		// essentially a constant
 		this.weekDaysShort = moment.weekdaysShort()
-		console.log(moment.weekdays())
 
 		this.getData = async () => {
 			this.dbRef = db.collection('userData')
 			this.allData = await this.dbRef.get()
-			this.allData.forEach(doc => console.log(doc.id, '=>', doc.data()));
+			// this.allData.forEach(doc => console.log(doc.id, '=>', doc.data()));
 
 			// logs all documents with 
 			this.documentEx = await this.dbRef.where('isAllDay', '==', true).get()
-			this.documentEx.forEach(doc => {console.log(doc.data())})
+			// this.documentEx.forEach(doc => {console.log(doc.data())})
 		}
+		dataHandler.importCheck()
 		
 	};
 
@@ -46,9 +48,9 @@ class WeeklyAgenda extends React.Component {
 		this.weekDates = [];
 		// adds all dates for the week to array
 		for (let i = 0; i < 7; i++){
-			// Push day
+			// Push current day
 		 	this.weekDates.push(this.weekStart.format('M/D'));
-		 	// Adds a day
+		 	// Add a day
 			this.weekStart = this.weekStart.add(1, 'days'); 
 		};
 		this.setState(()=>({weekDates: this.weekDates}));
@@ -68,12 +70,12 @@ class WeeklyAgenda extends React.Component {
 	};
 	prevWeek() {
 		this.setState(prevState => ({day: prevState.day.subtract(1, 'week')}), 
-			()=>{this.getHeaderDates();this.addHeaders()}
+			()=>{this.getHeaderDates();this.addHeaders();this.addAllDayEvents()}
 		);
 	}
 	nextWeek() {
 		this.setState(prevState => ({day: prevState.day.add(1, 'week')}), 
-			()=>{this.getHeaderDates();this.addHeaders();}
+			()=>{this.getHeaderDates();this.addHeaders();this.addAllDayEvents()}
 		);
 	}
 	// creates an array of times from 00:00 - 23:30 as strings
@@ -96,7 +98,6 @@ class WeeklyAgenda extends React.Component {
 	// rename this to add all data
 	addTimesToTable() {
 		// maybe refactor into 2/3 functions
-		// consider use of state for the array
 		this.timeSlots = this.createTimeSlots();
 		this.timeSlotElements = [];
 		// TODO: first add the all day event data
@@ -120,17 +121,21 @@ class WeeklyAgenda extends React.Component {
 		}
 		return this.timeSlotElements;
 	}
-	addAllDayEvents() {
-		let allDayArray = [];
-		const dataArray = ['', '', '', '', '', '', '']; // pull firebase data
+	// add all day events :)
+	async addAllDayEvents() {
+		// get allDay events for this week
+		const dataArray = await dataHandler.getWeekEvents(this.dbRef, this.weekDates)
 		this.allDayArray = dataArray.map((data, index) => {
-			return <TableCell day={moment.weekdays(index)}/>;
-		}) 
-		// console.log('array: ', allDayArray)
-		this.setState({allDayData: allDayArray});
-		// console.log('post statechange:', this.state.allDayData)
-
+			if (data){
+				return <TableCell status="active" display={data.name} day={moment.weekdays(index)}/>;
+				
+			} else {
+				return <TableCell day={moment.weekdays(index)}/>
+			}
+		})
+		this.setState({allDayData: this.allDayArray});
 	}
+
 	render(){
 		return (
 			<div id="cal-container">
@@ -150,7 +155,7 @@ class WeeklyAgenda extends React.Component {
 					<thead>{<tr><td></td>{this.state.tableHeaders}</tr>}</thead>
 					<tbody>
 						{/* add all day event */}
-						<tr><TableCell display="All Day"/>{this.allDayArray}</tr>
+						<tr><TableCell display="All Day"/>{this.state.allDayData}</tr>
 						{this.addTimesToTable()}
 					</tbody>
 				</table>
