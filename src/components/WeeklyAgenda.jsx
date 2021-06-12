@@ -14,41 +14,28 @@ class WeeklyAgenda extends React.Component {
 		}
 		// essentially a constant
 		this.weekDaysShort = moment.weekdaysShort()
-		this.getHeaderDates()
-		this.addHeaders()
-		this.addAllDayEvents()
+		console.log(moment.weekdays())
 
-		// get firestore data!
+		this.getData = async () => {
+			this.dbRef = db.collection('userData')
+			this.allData = await this.dbRef.get()
+			this.allData.forEach(doc => console.log(doc.id, '=>', doc.data()));
 
-		// const db = firebase.firestore()
-		// let docRef = db.collection('userData')
-		// console.log(docRef)
-
-		// const fetchEvents = async () => {
-		// 	const response = db.collection('userData')
-		// 	const data = await response.get()
-		// 	console.log(data.docs);
-		// }
-		// // calls function twice for some reason
-		// fetchEvents();
-
-		this.snapshot = async () => {
-			this.collection = await db.collection('userData').get()
-			this.collection.forEach(doc => console.log(doc.id, '=>', doc.data()));
+			// logs all documents with 
+			this.documentEx = await this.dbRef.where('isAllDay', '==', true).get()
+			this.documentEx.forEach(doc => {console.log(doc.data())})
 		}
 		
 	};
 
-	// getData () {
-
-	// 	this.collection = await db.collection('userData').get()
-	// 	this.collection.forEach(doc => console.log(doc.name, '=>', doc.data()));
-		
-	// }
-
 	componentDidMount() {
-		// this.getData();
-		this.snapshot();
+		// gets data from firebase
+		this.getData();
+		// adds table headers using state
+		this.getHeaderDates()
+		this.addHeaders()
+		// adds all day events
+		this.addAllDayEvents()
 	}
 
 	getHeaderDates() {
@@ -64,7 +51,7 @@ class WeeklyAgenda extends React.Component {
 		 	// Adds a day
 			this.weekStart = this.weekStart.add(1, 'days'); 
 		};
-		// this.setState(()=>({weekDates: this.weekDates}));
+		this.setState(()=>({weekDates: this.weekDates}));
 		// return this.weekDates;
 	}
 	addHeaders() {
@@ -76,7 +63,7 @@ class WeeklyAgenda extends React.Component {
 				</th>
 			);
 		})
-		// this.setState(() => ({tableHeaders: this.tableHeaderArray}))
+		this.setState(() => ({tableHeaders: this.tableHeaderArray}))
 		// return this.tableHeaderArray;
 	};
 	prevWeek() {
@@ -89,7 +76,7 @@ class WeeklyAgenda extends React.Component {
 			()=>{this.getHeaderDates();this.addHeaders();}
 		);
 	}
-	// creates an array ofr times from 00:00 - 23:30 as strings
+	// creates an array of times from 00:00 - 23:30 as strings
 	createTimeSlots() {
 		let x = {slotInterval: 30, openTime: '0:00', closeTime: '24:00'};
 		// format times
@@ -114,17 +101,20 @@ class WeeklyAgenda extends React.Component {
 		this.timeSlotElements = [];
 		// TODO: first add the all day event data
 		for (let d = 0; d < 48; d++){
+			// get elements for this time slot
+
 			this.timeSlotElements.push(
+				// adding events row by row
 				<tr key={d} className="timeSlot">
 					<td key={d}>{this.timeSlots[d]}</td>
 					{/* the below elements must be rendered with the data */}
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
+					<TableCell day='Sunday' timeSlot={this.timeSlots[d]}/>
+					<TableCell day='Monday' timeSlot={this.timeSlots[d]}/>
+					<TableCell day='Tuesday' timeSlot={this.timeSlots[d]}/>
+					<TableCell day='Wednesday' timeSlot={this.timeSlots[d]}/>
+					<TableCell day='Thursday' timeSlot={this.timeSlots[d]}/>
+					<TableCell day='Friday' timeSlot={this.timeSlots[d]}/>
+					<TableCell day='Saturday' timeSlot={this.timeSlots[d]}/>
 				</tr>
 			);
 		}
@@ -134,7 +124,7 @@ class WeeklyAgenda extends React.Component {
 		let allDayArray = [];
 		const dataArray = ['', '', '', '', '', '', '']; // pull firebase data
 		this.allDayArray = dataArray.map((data, index) => {
-			return <TableCell key={'AllDay' + index} eventData={data} />;
+			return <TableCell day={moment.weekdays(index)}/>;
 		}) 
 		// console.log('array: ', allDayArray)
 		this.setState({allDayData: allDayArray});
@@ -157,10 +147,10 @@ class WeeklyAgenda extends React.Component {
 					</div>
 				</div>
 				<table>
-					<thead>{<tr><td></td>{this.tableHeaderArray}</tr>}</thead>
+					<thead>{<tr><td></td>{this.state.tableHeaders}</tr>}</thead>
 					<tbody>
 						{/* add all day event */}
-						<tr><TableCell eventData="All Day"/>{this.allDayArray}</tr>
+						<tr><TableCell display="All Day"/>{this.allDayArray}</tr>
 						{this.addTimesToTable()}
 					</tbody>
 				</table>
