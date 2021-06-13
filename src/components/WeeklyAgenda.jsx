@@ -15,29 +15,15 @@ class WeeklyAgenda extends React.Component {
 			day: this.props.date,
 			weekDates: [],
 		}
-
-		this.getData = async () => {
-			this.dbRef = db.collection('userData')
-			this.allData = await this.dbRef.get()
-			// this.allData.forEach(doc => console.log(doc.id, '=>', doc.data()));
-
-			// logs all documents with 
-			this.documentEx = await this.dbRef.where('isAllDay', '==', true).get()
-			// this.documentEx.forEach(doc => {console.log(doc.data())})
-		}
-		dataHandler.importCheck()
-		
+		this.dbRef = db.collection('userData')
 	};
 
 	componentDidMount() {
-		// gets data from firebase
-		this.getData();
 		// adds table headers using state
 		this.addHeaders()
 		// adds all day events
 		this.addAllDayEvents()
-	}
-
+	};
 	addHeaders() {
 		this.weekDates = dateGenerator.generateWeekDates(this.state.day);
 		// matches date and weekday to match in array
@@ -55,12 +41,12 @@ class WeeklyAgenda extends React.Component {
 		this.setState(prevState => ({day: prevState.day.subtract(1, 'week')}), 
 			()=>{this.addHeaders();this.addAllDayEvents()}
 		);
-	}
+	};
 	nextWeek() {
 		this.setState(prevState => ({day: prevState.day.add(1, 'week')}), 
 			()=>{this.addHeaders();this.addAllDayEvents()}
 		);
-	}
+	};
 	// rename this to add all data
 	addAllFields() {
 		// maybe refactor into 2/3 functions
