@@ -1,10 +1,7 @@
 class dataHandler {
-    static importCheck() {
-        console.log('Connection to Data Handler Established')
-    }
     // for getting the events that last all day
     static async getWeekEvents(dbRef, dates) {
-        // gets all day events matching current dates 
+        // gets all day events matching current dates
         let allDayWeekEvents = dbRef.where('isAllDay', '==', true).where('date', 'in', dates)
         let response = await allDayWeekEvents.get()
         let documents = []
@@ -18,7 +15,6 @@ class dataHandler {
         }
         return eventArray;
     };
-
     // for using the event inspector / popup
     static getEventObjectFromName() {};
 };
