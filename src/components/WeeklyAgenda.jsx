@@ -6,7 +6,8 @@ import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import db from '../firebase.js';
 import TableCell from './TableCell';
 import dataHandler from '../dataHandler';
-import dateGenerator from '../dateGenerators'
+import dateGenerator from '../dateGenerators';
+import dataGenerator from '../dataGenerator';
 
 class WeeklyAgenda extends React.Component {
 	constructor(props){
@@ -16,6 +17,8 @@ class WeeklyAgenda extends React.Component {
 			weekDates: [],
 		}
 		this.dbRef = db.collection('userData')
+		this.weekDates = dateGenerator.generateWeekDates(this.state.day);
+		// dataGenerator.addData();
 	};
 
 	componentDidMount() {
@@ -25,6 +28,7 @@ class WeeklyAgenda extends React.Component {
 		this.addAllDayEvents()
 	};
 	addHeaders() {
+		// updates current weekDates
 		this.weekDates = dateGenerator.generateWeekDates(this.state.day);
 		// matches date and weekday to match in array
 		this.tableHeaderArray = moment.weekdaysShort().map((day, index) => {
@@ -39,35 +43,33 @@ class WeeklyAgenda extends React.Component {
 	};
 	prevWeek() {
 		this.setState(prevState => ({day: prevState.day.subtract(1, 'week')}), 
-			()=>{this.addHeaders();this.addAllDayEvents()}
+			()=>{console.log('prev Clicked!');this.addHeaders();this.addAllDayEvents()}
 		);
 	};
 	nextWeek() {
 		this.setState(prevState => ({day: prevState.day.add(1, 'week')}), 
-			()=>{this.addHeaders();this.addAllDayEvents()}
+			()=>{console.log('next Clicked!');this.addHeaders();this.addAllDayEvents()}
 		);
 	};
 	// rename this to add all data
 	addAllFields() {
-		// maybe refactor into 2/3 functions
 		this.timeSlots = dateGenerator.createTimeSlots();
 		this.timeSlotElements = [];
 		// TODO: first add the all day event data
+		dataHandler.getEvents(this.dbRef, this.weekDates)
 		for (let d = 0; d < 48; d++){
-			// get elements for this time slot
-
 			this.timeSlotElements.push(
 				// adding events row by row
 				<tr key={d} className="timeSlot">
 					<td key={d}>{this.timeSlots[d]}</td>
 					{/* the below elements must be rendered with the data */}
-					<TableCell day='Sunday' timeSlot={this.timeSlots[d]}/>
-					<TableCell day='Monday' timeSlot={this.timeSlots[d]}/>
-					<TableCell day='Tuesday' timeSlot={this.timeSlots[d]}/>
-					<TableCell day='Wednesday' timeSlot={this.timeSlots[d]}/>
-					<TableCell day='Thursday' timeSlot={this.timeSlots[d]}/>
-					<TableCell day='Friday' timeSlot={this.timeSlots[d]}/>
-					<TableCell day='Saturday' timeSlot={this.timeSlots[d]}/>
+					<TableCell key={'Sunday'+this.timeSlots[d]}day='Sunday' timeSlot={this.timeSlots[d]}/>
+					<TableCell key={'Monday'+this.timeSlots[d]}day='Monday' timeSlot={this.timeSlots[d]}/>
+					<TableCell key={'Tuesday'+this.timeSlots[d]}day='Tuesday' timeSlot={this.timeSlots[d]}/>
+					<TableCell key={'Wednesday'+this.timeSlots[d]}day='Wednesday' timeSlot={this.timeSlots[d]}/>
+					<TableCell key={'Thursday'+this.timeSlots[d]}day='Thursday' timeSlot={this.timeSlots[d]}/>
+					<TableCell key={'Friday'+this.timeSlots[d]}day='Friday' timeSlot={this.timeSlots[d]}/>
+					<TableCell key={'Saturday'+this.timeSlots[d]}day='Saturday' timeSlot={this.timeSlots[d]}/>
 				</tr>
 			);
 		}
@@ -76,13 +78,13 @@ class WeeklyAgenda extends React.Component {
 	// add all day events :)
 	async addAllDayEvents() {
 		// get allDay events for this week
-		const dataArray = await dataHandler.getWeekEvents(this.dbRef, this.weekDates)
+		const dataArray = await dataHandler.getAllDayEvents(this.dbRef, this.weekDates)
 		this.allDayArray = dataArray.map((data, index) => {
 			if (data){
-				return <TableCell status="active" display={data.name} day={moment.weekdays(index)}/>;
+				return <TableCell key={moment.weekdays(index)+'AllDay'} status="active" display={data.name} day={moment.weekdays(index)} eventData={data}/>;
 				
 			} else {
-				return <TableCell day={moment.weekdays(index)}/>
+				return <TableCell key={moment.weekdays(index)+'AllDay'} day={moment.weekdays(index)}/>
 			}
 		})
 		this.setState({allDayData: this.allDayArray});
@@ -106,7 +108,6 @@ class WeeklyAgenda extends React.Component {
 				<table>
 					<thead>{<tr><td></td>{this.state.tableHeaders}</tr>}</thead>
 					<tbody>
-						{/* add all day event */}
 						<tr><TableCell display="All Day"/>{this.state.allDayData}</tr>
 						{this.addAllFields()}
 					</tbody>
