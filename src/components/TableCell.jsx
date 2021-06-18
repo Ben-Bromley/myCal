@@ -25,6 +25,7 @@ class TableCell extends Component {
     render() {
         return (
                 <td className={this.props.status} onClick={()=>this.handleClick()}>
+                    {/* this.state.eventData.name */} 
                     {this.props.display}
                 </td>
         )
